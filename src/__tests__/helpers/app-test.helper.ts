@@ -1,4 +1,8 @@
-import {Client, createRestAppClient, givenHttpServerConfig} from '@loopback/testlab';
+import {
+  Client,
+  createRestAppClient,
+  givenHttpServerConfig,
+} from '@loopback/testlab';
 import {PokemonApiLoopbackApplication} from '../../application';
 
 export async function setupApplication(): Promise<AppWithClient> {

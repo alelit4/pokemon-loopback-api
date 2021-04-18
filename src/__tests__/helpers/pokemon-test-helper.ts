@@ -4,7 +4,7 @@ export const aBulbasaur = {
   classification: 'Seed Pokémon',
   favourite: false,
   types: ['Grass', 'Poison'],
-}
+};
 
 export const anSquirtle = {
   id: '002',
@@ -12,7 +12,7 @@ export const anSquirtle = {
   classification: 'Tiny Turtle Pokémon',
   favourite: true,
   types: ['Water'],
-}
+};
 
 export const aPikachu = {
   id: '003',
@@ -20,7 +20,7 @@ export const aPikachu = {
   classification: 'Mouse Pokémon',
   favourite: true,
   types: ['Electric'],
-}
+};
 
 export const aRaichu = {
   id: '004',
@@ -28,4 +28,4 @@ export const aRaichu = {
   classification: 'Mouse Pokémon',
   favourite: true,
   types: ['Electric'],
-}
+};
