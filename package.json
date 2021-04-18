@@ -26,6 +26,7 @@
     "test:unit": "npm run build && mocha --recursive \"dist/__tests__/unit\"",
     "test:acceptance": "npm run build && mocha --recursive \"dist/__tests__/acceptance\"",
     "tests": "npm run build && mocha --recursive \"dist/__tests__/\"",
+    "coverage": "nyc npm run test",
     "posttest": "npm run lint",
     "test:dev": "lb-mocha --allow-console-logs dist/__tests__/**/*.js && npm run posttest",
     "docker:build": "docker build -t pokemon-api-loopback .",
@@ -59,6 +60,7 @@
     "@loopback/rest-explorer": "^3.2.1",
     "@loopback/service-proxy": "^3.1.1",
     "loopback-connector-mongodb": "^5.5.0",
+    "nyc": "^14.1.1",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
