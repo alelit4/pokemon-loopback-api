@@ -36,6 +36,11 @@ export class PokemonApiLoopbackApplication extends BootMixin(
         extensions: ['.model.js'],
         nested: true,
       },
+      services: {
+        dirs: ['usecases'],
+        extensions: ['.usecase.js'],
+        nested: true,
+      },
     };
   }
 }
