@@ -1,6 +1,6 @@
 📌 Some future improvements:
 * Change infrastructure folders
-* Add Docker to deploy the app
+* ~~Add Docker to deploy the app~~
 * Add Docker to deploy the database
 * Load data pokemons.json in database  
 * Create query pokemons with the options:
