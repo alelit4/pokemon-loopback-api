@@ -32,8 +32,19 @@ appears in the development of this project. I try to keep this file clean, but d
 
 ## 🚀 Get started
 
+This project is ready to be use with [Docker]() just change the name of ./.env.sample file to
+./.env to load some demo environment var and then run:
+
+```sh
+npm run docker:build
+```
+
 _If you want to use this project be sure you have installed [NodeJs and npm](https://nodejs.org/es/download/) and 
 [MongoDB](https://www.mongodb.com/2)_
+
+```sh
+npm start
+```
 
 ### 📦 Pre-requirements
 
