@@ -1,5 +1,26 @@
 version: '3.7'
 services:
+  database:
+    container_name: mongodb
+    image: mongo:latest
+    env_file:
+      - .env
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+  database_seed:
+    container_name: mongodb_seed
+    image: library/mongo:latest
+    links:
+      - database
+    env_file:
+      - .env
+    volumes:
+      - ./data/db/pokemons.json:/data/db/pokemons.json
+    command: >
+      bash -c "mongoimport --host database --db pokemondb --collection pokemons --username $MONGO_DB_USERNAME
+      --password $MONGO_DB_PASSWORD /data/db/pokemons.json --jsonArray --upsertFields id"
   api:
     container_name: pokemon_api
     build: .
