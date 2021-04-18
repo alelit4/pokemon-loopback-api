@@ -1,6 +1,6 @@
 import {Count, CountSchema, Filter, FilterExcludingWhere, repository} from '@loopback/repository';
 import {get, getModelSchemaRef, param, response} from '@loopback/rest';
-import {Pokemon} from '../models';
+import {Pokemon} from '../domain/entities';
 import {MongodbPokemonRepository} from '../repositories';
 
 export class PokemonController {
