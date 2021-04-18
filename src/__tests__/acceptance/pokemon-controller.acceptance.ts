@@ -140,6 +140,45 @@ describe('Pokemon controller should ', () => {
     expect(response.body[0].id).equal(aBulbasaur.id);
   });
 
+  it('retrieve pokemon by type when type is part of a type', async () => {
+    const queryType = 'Elec';
+    await givenPokemon(aBulbasaur);
+    await givenPokemon(anSquirtle);
+    await givenPokemon(aPikachu);
+    await givenPokemon(aRaichu);
+
+    const response = await client.get(`/pokemon?type=${queryType}`);
+
+    expect(response.body).to.has.length(2);
+    expect(response.body[0].id).equal(aPikachu.id);
+    expect(response.body[1].id).equal(aRaichu.id);
+  });
+
+  it('retrieve pokemon by type param', async () => {
+    const queryType = 'Grass';
+    await givenPokemon(aBulbasaur);
+    await givenPokemon(anSquirtle);
+    await givenPokemon(aPikachu);
+    await givenPokemon(aRaichu);
+
+    const response = await client.get(`/pokemon?type=${queryType}`);
+
+    expect(response.body).to.has.length(1);
+    expect(response.body[0].id).equal(aBulbasaur.id);
+  });
+
+  it('retrieve empty when type param is not a real type', async () => {
+    const queryType = 'GrassPoison';
+    await givenPokemon(aBulbasaur);
+    await givenPokemon(anSquirtle);
+    await givenPokemon(aPikachu);
+    await givenPokemon(aRaichu);
+
+    const response = await client.get(`/pokemon?type=${queryType}`);
+
+    expect(response.body).to.has.length(0);
+  });
+
   async function givenRunningApp() {
     app = new PokemonApiLoopbackApplication({
       rest: {
