@@ -8,8 +8,7 @@ export class PokemonController {
   constructor(
     @service(PokemonFinderUsecase)
     public pokemonFinder: PokemonFinderUsecase,
-  ) {
-  }
+  ) {}
 
   @get('/pokemon/count')
   @response(200, {
@@ -40,5 +39,4 @@ export class PokemonController {
   ): Promise<Pokemon[]> {
     return this.pokemonFinder.findByParams(name, favourite, page, size);
   }
-
 }

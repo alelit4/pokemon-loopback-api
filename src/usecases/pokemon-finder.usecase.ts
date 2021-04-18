@@ -9,14 +9,18 @@ export class PokemonFinderUsecase {
   constructor(
     @repository(MongodbPokemonRepository)
     public pokemonRepository: PokemonRepository,
-  ) {
-  }
+  ) {}
 
   count() {
     return this.pokemonRepository.count();
   }
 
-  findByParams(name?: string,  favourite?: boolean, page?: number, size?: number): Promise<Pokemon[]> {
+  findByParams(
+    name?: string,
+    favourite?: boolean,
+    page?: number,
+    size?: number,
+  ): Promise<Pokemon[]> {
     const [skip, limit] = PokemonFinderUsecase.calculatePagination(page, size);
     return this.pokemonRepository.findByParams(name, favourite, skip, limit);
   }
@@ -26,5 +30,4 @@ export class PokemonFinderUsecase {
     const limit = page && size ? size : undefined;
     return [skip, limit];
   }
-
 }
