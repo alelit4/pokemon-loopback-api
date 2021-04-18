@@ -34,9 +34,10 @@ export class PokemonController {
   async find(
     @param.query.string('name') name?: string,
     @param.query.boolean('favourite') favourite?: boolean,
+    @param.query.string('type') type?: string,
     @param.query.number('page') page?: number,
     @param.query.number('size') size?: number,
   ): Promise<Pokemon[]> {
-    return this.pokemonFinder.findByParams(name, favourite, page, size);
+    return this.pokemonFinder.findByParams(name, favourite, type, page, size);
   }
 }

@@ -18,11 +18,12 @@ export class PokemonFinderUsecase {
   findByParams(
     name?: string,
     favourite?: boolean,
+    type?: string,
     page?: number,
     size?: number,
   ): Promise<Pokemon[]> {
     const [skip, limit] = PokemonFinderUsecase.calculatePagination(page, size);
-    return this.pokemonRepository.findByParams(name, favourite, skip, limit);
+    return this.pokemonRepository.findByParams(name, favourite, type, skip, limit);
   }
 
   private static calculatePagination(page?: number, size?: number) {

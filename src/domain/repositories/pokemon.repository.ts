@@ -7,6 +7,7 @@ export interface PokemonRepository extends Repository<Pokemon> {
   findByParams(
     name?: string,
     favourite?: boolean,
+    type?: string,
     skip?: number,
     limit?: number,
   ): Promise<Pokemon[]>;

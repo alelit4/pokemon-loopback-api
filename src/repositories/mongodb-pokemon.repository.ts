@@ -18,6 +18,7 @@ export class MongodbPokemonRepository
   findByParams(
     name?: string,
     favourite?: boolean,
+    type?: string,
     skip?: number,
     limit?: number,
   ): Promise<Pokemon[]> {
@@ -25,6 +26,7 @@ export class MongodbPokemonRepository
       where: {
         name: name ? {regexp: new RegExp('.*' + name + '.*', 'i')} : undefined,
         favourite,
+        types: type ? {regexp: new RegExp('.*' + type + '.*', 'i')} : undefined,
       },
       skip: skip,
       limit: limit,
