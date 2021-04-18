@@ -84,6 +84,7 @@ describe('Pokemon repository should ', () => {
     const response = await pokemonRepository.findByParams(
       undefined,
       undefined,
+      undefined,
       paramSkip,
       paramLimit,
     );
@@ -102,6 +103,7 @@ describe('Pokemon repository should ', () => {
     await addPokemon(pokemonRepository, aRaichu);
 
     const response = await pokemonRepository.findByParams(
+      undefined,
       undefined,
       undefined,
       paramSkip,
@@ -145,4 +147,53 @@ describe('Pokemon repository should ', () => {
     expect(response.flat()).has.length(1);
     expect(response.flat()[0].id).equal(aBulbasaur.id);
   });
+
+  it('retrieve pokemons by type when type is part of the type', async () => {
+    const paramType = 'Elec';
+    await addPokemon(pokemonRepository, aBulbasaur);
+    await addPokemon(pokemonRepository, anSquirtle);
+    await addPokemon(pokemonRepository, aPikachu);
+    await addPokemon(pokemonRepository, aRaichu);
+
+    const response = await pokemonRepository.findByParams(
+      undefined, undefined,
+      paramType,
+    );
+
+    expect(response.flat()).has.length(2);
+    expect(response.flat()[0].id).equal(aPikachu.id);
+    expect(response.flat()[1].id).equal(aRaichu.id);
+  });
+
+  it('retrieve a pokemon by type', async () => {
+    const paramType = 'Grass';
+    await addPokemon(pokemonRepository, aBulbasaur);
+    await addPokemon(pokemonRepository, anSquirtle);
+    await addPokemon(pokemonRepository, aPikachu);
+    await addPokemon(pokemonRepository, aRaichu);
+
+    const response = await pokemonRepository.findByParams(
+      undefined, undefined,
+      paramType,
+    );
+
+    expect(response.flat()).has.length(1);
+    expect(response.flat()[0].id).equal(aBulbasaur.id);
+  });
+
+  it('retrieve empty when type is not a real type', async () => {
+    const paramType = 'GrassPoison';
+    await addPokemon(pokemonRepository, aBulbasaur);
+    await addPokemon(pokemonRepository, anSquirtle);
+    await addPokemon(pokemonRepository, aPikachu);
+    await addPokemon(pokemonRepository, aRaichu);
+
+    const response = await pokemonRepository.findByParams(
+      undefined, undefined,
+      paramType,
+    );
+
+    expect(response.flat()).has.length(0);
+  });
+
 });
