@@ -27,6 +27,10 @@ export function givenPokemonData(data?: Partial<Pokemon>) {
   );
 }
 
+export async function givenPokemon(data?: Partial<Pokemon>) {
+  return new MongodbPokemonRepository(testdb).create(givenPokemonData(data));
+}
+
 export async function addPokemon(repository: MongodbPokemonRepository, data?: Partial<Pokemon>) {
   return repository.create(givenPokemonData(data));
 }
