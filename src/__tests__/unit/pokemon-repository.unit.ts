@@ -148,7 +148,7 @@ describe('Pokemon repository should ', () => {
     expect(response.flat()[0].id).equal(aBulbasaur.id);
   });
 
-  it('retrieve pokemons by type when type is part of the type', async () => {
+  it('retrieve pokemon by type when type is part of a type', async () => {
     const paramType = 'Elec';
     await addPokemon(pokemonRepository, aBulbasaur);
     await addPokemon(pokemonRepository, anSquirtle);
@@ -156,7 +156,8 @@ describe('Pokemon repository should ', () => {
     await addPokemon(pokemonRepository, aRaichu);
 
     const response = await pokemonRepository.findByParams(
-      undefined, undefined,
+      undefined,
+      undefined,
       paramType,
     );
 
@@ -173,7 +174,8 @@ describe('Pokemon repository should ', () => {
     await addPokemon(pokemonRepository, aRaichu);
 
     const response = await pokemonRepository.findByParams(
-      undefined, undefined,
+      undefined,
+      undefined,
       paramType,
     );
 
@@ -189,11 +191,11 @@ describe('Pokemon repository should ', () => {
     await addPokemon(pokemonRepository, aRaichu);
 
     const response = await pokemonRepository.findByParams(
-      undefined, undefined,
+      undefined,
+      undefined,
       paramType,
     );
 
     expect(response.flat()).has.length(0);
   });
-
 });
