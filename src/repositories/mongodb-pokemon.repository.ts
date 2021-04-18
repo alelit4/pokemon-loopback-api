@@ -13,4 +13,15 @@ export class MongodbPokemonRepository extends DefaultCrudRepository<Pokemon,
     super(Pokemon, dataSource);
   }
 
+  findByParams(name?: string, favourite?: boolean, skip?: number, limit?: number): Promise<Pokemon[]> {
+    return this.find({
+      where: {
+        name: name ? {regexp: new RegExp('.*' + name + '.*', 'i')} : undefined,
+        favourite
+      },
+      skip: skip,
+      limit: limit,
+    });
+  }
+
 }

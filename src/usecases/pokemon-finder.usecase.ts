@@ -16,4 +16,15 @@ export class PokemonFinderUsecase {
     return this.pokemonRepository.count();
   }
 
+  findByParams(name?: string,  favourite?: boolean, page?: number, size?: number): Promise<Pokemon[]> {
+    const [skip, limit] = PokemonFinderUsecase.calculatePagination(page, size);
+    return this.pokemonRepository.findByParams(name, favourite, skip, limit);
+  }
+
+  private static calculatePagination(page?: number, size?: number) {
+    const skip = page && size ? (page - 1) * size : 0;
+    const limit = page && size ? size : undefined;
+    return [skip, limit];
+  }
+
 }

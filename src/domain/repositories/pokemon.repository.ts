@@ -5,4 +5,6 @@ export interface PokemonRepository extends Repository<Pokemon> {
 
   count(): Promise<Count>;
 
+  findByParams(name?: string, favourite?: boolean, skip?: number, limit?: number): Promise<Pokemon[]>;
+
 }
