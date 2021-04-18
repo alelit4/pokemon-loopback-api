@@ -21,7 +21,7 @@ export function givenPokemonData(data?: Partial<Pokemon>) {
       name: 'a-pokemon-name',
       classification: 'a-pokemon-classification',
       favourite: true,
-      type: ['a-pokemon-type', 'other-pokemon-type'],
+      types: ['a-pokemon-type', 'other-pokemon-type'],
     },
     data,
   );
