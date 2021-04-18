@@ -7,8 +7,9 @@ import {repository} from '@loopback/repository';
 export class PokemonFinderService {
   constructor(
     @repository(MongodbPokemonRepository)
-    public pokemonRepository: PokemonRepository
-  ) {}
+    public pokemonRepository: PokemonRepository,
+  ) {
+  }
 
   count() {
     return this.pokemonRepository.count();

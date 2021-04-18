@@ -17,10 +17,10 @@ describe('Pokemon repository should ', () => {
     ],
   } as Pokemon;
 
-  before(() => cleanDatabase() );
+  before(() => cleanDatabase());
 
   it('retrieves the number of pokemons in database', async () => {
-    await addPokemon(pokemonRepository, aPokemon)
+    await addPokemon(pokemonRepository, aPokemon);
 
     const numberOfPokemons = await pokemonRepository.count();
 

@@ -24,9 +24,8 @@ describe('Pokemon controller should ', () => {
 
     const response = await client.get('/pokemon/count');
 
-    expect(response.body.count).to.equal( 1);
+    expect(response.body.count).to.equal(1);
   });
-
 
   async function givenRunningApp() {
     app = new PokemonApiLoopbackApplication({
@@ -39,6 +38,5 @@ describe('Pokemon controller should ', () => {
     await app.start();
     client = createRestAppClient(app);
   }
-
 
 });

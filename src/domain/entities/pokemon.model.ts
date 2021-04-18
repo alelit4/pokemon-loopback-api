@@ -5,8 +5,9 @@ import {Entity, model, property} from '@loopback/repository';
     strict: false,
     mongodb: {collection: 'pokemons'},
   },
-  name: 'pokemon'
-})export class Pokemon extends Entity {
+  name: 'pokemon',
+})
+export class Pokemon extends Entity {
   @property({
     type: 'string',
     id: true,

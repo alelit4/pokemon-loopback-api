@@ -1,6 +1,6 @@
 import {Client} from '@loopback/testlab';
 import {PokemonApiLoopbackApplication} from '../..';
-import {setupApplication} from './test-helper';
+import {setupApplication} from '../helpers/app-test.helper';
 
 describe('HomePage', () => {
   let app: PokemonApiLoopbackApplication;

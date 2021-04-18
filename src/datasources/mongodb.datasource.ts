@@ -10,7 +10,7 @@ const config = {
   user: 'username',
   password: 'password',
   database: 'pokemondb',
-  useNewUrlParser: true
+  useNewUrlParser: true,
 };
 
 // Observe application's life cycle to disconnect the datasource when
