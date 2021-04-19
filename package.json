@@ -31,6 +31,7 @@
     "test:dev": "lb-mocha --allow-console-logs dist/__tests__/**/*.js && npm run posttest",
     "docker:build": "docker build -t pokemon-api-loopback .",
     "docker:run": "docker run -p 3000:3000 -d pokemon-api-loopback",
+    "docker:compose:run": "docker compose up",
     "premigrate": "npm run build",
     "migrate": "node ./dist/migrate",
     "preopenapi-spec": "npm run build",
