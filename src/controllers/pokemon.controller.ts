@@ -71,7 +71,7 @@ export class PokemonController {
     }
   }
 
-  @get('/pokemon/{name}')
+  @get('/pokemon/name/{name}')
   @response(200, {
     description: 'Array of Pokemon model instances',
     content: {

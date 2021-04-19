@@ -48,7 +48,7 @@ describe('Pokemon controller should ', () => {
     await givenPokemon(aPikachu);
     await givenPokemon(aRaichu);
 
-    const response = await client.get(`/pokemon?name=${queryName}`);
+    const response = await client.get(`/pokemon/name/${queryName}`);
 
     expect(response.body).to.has.length(2);
     expect(response.body[0].id).equal(aPikachu.id);
@@ -62,7 +62,7 @@ describe('Pokemon controller should ', () => {
     await givenPokemon(aPikachu);
     await givenPokemon(aRaichu);
 
-    const response = await client.get(`/pokemon?name=${queryName}`);
+    const response = await client.get(`/pokemon/name/${queryName}`);
 
     expect(response.body).to.has.length(1);
     expect(response.body[0].id).equal(aPikachu.id);
@@ -73,7 +73,7 @@ describe('Pokemon controller should ', () => {
     await givenPokemon(aPikachu);
     await givenPokemon(aRaichu);
 
-    const response = await client.get(`/pokemon?name=${queryName}`);
+    const response = await client.get(`/pokemon/name/${queryName}`);
 
     expect(response.body).to.has.length(0);
   });
@@ -252,7 +252,7 @@ describe('Pokemon controller should ', () => {
     await givenPokemon(aPikachu);
     await givenPokemon(aRaichu);
 
-    const response = await client.get(`/pokemon?name=${queryName}`);
+    const response = await client.get(`/pokemon/name/${queryName}`);
 
     expect(response.body).to.has.length(2);
     expect(response.body[0].id).equal(aPikachu.id);
@@ -266,7 +266,7 @@ describe('Pokemon controller should ', () => {
     await givenPokemon(aPikachu);
     await givenPokemon(aRaichu);
 
-    const response = await client.get(`/pokemon?name=${queryName}`);
+    const response = await client.get(`/pokemon/name/${queryName}`);
 
     expect(response.body).to.has.length(1);
     expect(response.body[0].id).equal(aPikachu.id);
@@ -277,7 +277,7 @@ describe('Pokemon controller should ', () => {
     await givenPokemon(aPikachu);
     await givenPokemon(aRaichu);
 
-    const response = await client.get(`/pokemon?name=${queryName}`);
+    const response = await client.get(`/pokemon/name/${queryName}`);
 
     expect(response.body).to.has.length(0);
   });
