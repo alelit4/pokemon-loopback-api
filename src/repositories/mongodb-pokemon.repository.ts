@@ -45,7 +45,7 @@ export class MongodbPokemonRepository
     });
   }
 
-  async markAsFavourite(id: string, favourite: boolean): Promise<void> {
+  async markAsFavourite(id: string, favourite?: boolean): Promise<void> {
     const pokemon = await this.findOneById(id);
     if (!pokemon) throw new HttpErrors.NotFound('Pokemon does not exist!');
     pokemon.favourite = favourite ? favourite : !pokemon.favourite;

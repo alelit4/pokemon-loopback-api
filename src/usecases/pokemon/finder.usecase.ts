@@ -37,4 +37,8 @@ export class FinderUsecase {
     const limit = page && size ? size : undefined;
     return [skip, limit];
   }
+
+  findOneById(id?: string) {
+    return this.pokemonRepository.findOneById(id);
+  }
 }
