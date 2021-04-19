@@ -5,3 +5,4 @@
 * Add custom error exceptions
 * Create a CI
 * Avoid primitive obsession
+* Add query pattern verification
