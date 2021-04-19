@@ -31,6 +31,7 @@ export class MongodbPokemonRepository
       },
       skip: skip,
       limit: limit,
+      order: ['id ASC'],
     });
   }
 
@@ -55,15 +56,13 @@ export class MongodbPokemonRepository
 
   async markAsFavourite(id: string, favourite?: boolean): Promise<void> {
     const pokemon = await this.findOneById(id);
-    if (!pokemon) throw new HttpErrors.NotFound('Pokemon does not exist!');
+    if (!pokemon) throw new Error('Pokemon does not exist!');
     pokemon.favourite = favourite ? favourite : !pokemon.favourite;
     return this.updateById(pokemon._id, {...pokemon});
   }
 
   async findDistinctTypes(): Promise<string[]> {
-    const pokemonsWithType = await this.find({fields: {types: true}}, {});
-    if (!pokemonsWithType)
-      throw new HttpErrors.NotFound('No pokemon with types!');
+    const pokemonsWithType = await this.find();
     return [...new Set(pokemonsWithType.flatMap(pokemon => pokemon.types))];
   }
 }
