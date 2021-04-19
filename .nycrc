@@ -13,11 +13,13 @@
     "node_modules/**",
     "**/*.d.ts",
     "**/*.test.ts",
+    ".eslintrc.js",
     "mongo-init.js",
     "src/application.ts",
     "src/index.ts",
     "src/migrate.ts",
-    "src/openapi-spec.ts"
+    "src/openapi-spec.ts",
+    "src/__tests__/**"
   ],
   "sourceMap": true,
   "reporter": [
