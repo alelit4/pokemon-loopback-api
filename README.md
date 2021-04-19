@@ -14,9 +14,9 @@ Specific I use [Hexagonal Architecture](https://en.wikipedia.org/wiki/Hexagonal_
 based on the book [Growing Object Oriented Software](https://www.amazon.com/Growing-Object-Oriented-Software-Guided-Tests/dp/0321503627), 
 but with some limitations based on some restrictions of LoopBack framework.
 
-This repository contains the main code of the application in the path '/src'. However, there is some data
-related to the model of the api in the path '/data/db' (that is the base of this).
-The project has the following layers in '/src':
+This repository contains the main code of the application in the path `/src`. However, there is some data
+related to the model of the api in the path `/data/db` (that is the base of this).
+The project has the following layers in `/src`:
 
 * controllers: This is the entry-point layer where all the controllers are defined based on the use cases.
 * datasources: This is an infrastructure layer where all the information related with the data source is in. 
@@ -31,8 +31,8 @@ appears in the development of this project. I try to keep this file clean, but d
 
 ## 🚀 Get started
 
-This project is ready to be use with 🐳[Docker](https://www.docker.com/) just change the name of ./.env.sample file to
-./.env to load some demo environment var and then run:
+This project is ready to be used with 🐳[Docker](https://www.docker.com/) just changing the name of `.env.sample` file to
+.env to load some demo environment variables and then run:
 
 ```sh
 npm run docker:build
@@ -98,8 +98,8 @@ npm run rebuild
 
 ## ✔️Tests
 
-In this application all tests are over the path 'src/__tests__'.
-All the tools related needed to launch them are in 'src/__tests__/helpers'.
+In this application all tests are over the path `src/__tests__`.
+All the tools related needed to launch them are in `src/__tests__/helpers`.
 If you want to run all tests run:
 
 ```sh
@@ -107,7 +107,7 @@ npm run tests
 ```
 
 #### 🧨 Unit tests
-There are some unit tests in 'src/__tests__/unit' to test specific 
+There are some unit tests in `src/__tests__/unit` to test specific 
 functionalities of the app.
 To launch them run:
 
@@ -116,7 +116,7 @@ npm run test:unit
 ```
 
 #### 💣 Acceptance tests
-Acceptance tests are in 'src/__tests__/acceptance' to test the application end-to-end.
+Acceptance tests are in `src/__tests__/acceptance` to test the application end-to-end.
 To launch them run:
 
 ```sh
@@ -124,7 +124,7 @@ npm run test:acceptance
 ```
 
 #### 📊 Coverage 
-The project has integrated 🛕[nyc](https://github.com/istanbuljs/nyc)
+The project has 🛕[nyc](https://github.com/istanbuljs/nyc) integrated
 lib to see the test coverage of the application.
 To see the coverage run:
 
@@ -132,10 +132,10 @@ To see the coverage run:
 npm run coverage
 ```
 
-The report is generated in '/coverage/index.html', open it in your browser.
+The report is generated in `/coverage/index.html`, open it in your browser.
 
-#### 🩺 Test all the suit
-There is a command to execute all the suit test with the linter and tests.
+#### 🩺 Test suit
+There is a command to execute all the test suit with the linter and code tests.
 To run them execute:
 
 ```sh
