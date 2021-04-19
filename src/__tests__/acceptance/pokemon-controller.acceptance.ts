@@ -192,14 +192,13 @@ describe('Pokemon controller should ', () => {
   });
 
   it('retrieve an HTTP error when pokemon by fake id', async () => {
-    const queryId = "aFakeID";
+    const queryId = 'aFakeID';
     await givenPokemon(aBulbasaur);
     await givenPokemon(anSquirtle);
     await givenPokemon(aPikachu);
     await givenPokemon(aRaichu);
 
-    await client.get(`/pokemon/${queryId}`)
-      .expect(404);
+    await client.get(`/pokemon/${queryId}`).expect(404);
   });
 
   it('retrieve a pokemon marked as favourite', async () => {
@@ -244,6 +243,43 @@ describe('Pokemon controller should ', () => {
     const pokemonResponse = await client.get(`/pokemon/${queryId}`);
     expect(pokemonResponse.body.id).equal(aBulbasaur.id);
     expect(pokemonResponse.body.favourite).equal(!aBulbasaur.favourite);
+  });
+
+  it('retrieve all pokemon when find by part of the name like "chu" ', async () => {
+    const queryName = 'chu';
+    await givenPokemon(aBulbasaur);
+    await givenPokemon(anSquirtle);
+    await givenPokemon(aPikachu);
+    await givenPokemon(aRaichu);
+
+    const response = await client.get(`/pokemon?name=${queryName}`);
+
+    expect(response.body).to.has.length(2);
+    expect(response.body[0].id).equal(aPikachu.id);
+    expect(response.body[1].id).equal(aRaichu.id);
+  });
+
+  it('retrieve pokemon when filter by complete name', async () => {
+    const queryName = 'Pikachu';
+    await givenPokemon(aBulbasaur);
+    await givenPokemon(anSquirtle);
+    await givenPokemon(aPikachu);
+    await givenPokemon(aRaichu);
+
+    const response = await client.get(`/pokemon?name=${queryName}`);
+
+    expect(response.body).to.has.length(1);
+    expect(response.body[0].id).equal(aPikachu.id);
+  });
+
+  it('retrieve empty when filter by fake name', async () => {
+    const queryName = 'Pikachuuuu';
+    await givenPokemon(aPikachu);
+    await givenPokemon(aRaichu);
+
+    const response = await client.get(`/pokemon?name=${queryName}`);
+
+    expect(response.body).to.has.length(0);
   });
 
   async function givenRunningApp() {

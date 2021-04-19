@@ -309,6 +309,4 @@ describe('Pokemon repository should ', () => {
 
     expect(response.flat()).has.length(0);
   });
-
-
 });
