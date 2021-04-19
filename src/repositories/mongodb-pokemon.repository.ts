@@ -3,6 +3,7 @@ import {DefaultCrudRepository} from '@loopback/repository';
 import {MongodbDataSource} from '../datasources';
 import {Pokemon, PokemonRelations} from '../domain/entities';
 import {PokemonRepository} from '../domain/repositories/pokemon.repository';
+import {HttpErrors} from '@loopback/rest';
 
 export class MongodbPokemonRepository
   extends DefaultCrudRepository<
@@ -31,5 +32,23 @@ export class MongodbPokemonRepository
       skip: skip,
       limit: limit,
     });
+  }
+
+  findOneById(id: string): Promise<Pokemon> {
+    return this.findOne({
+      where: {
+        id: id,
+      },
+    }).then(pokemon => {
+      if (!pokemon) throw new HttpErrors.NotFound('Pokemon does not exist!');
+      return pokemon;
+    });
+  }
+
+  async markAsFavourite(id: string, favourite: boolean): Promise<void> {
+    const pokemon = await this.findOneById(id);
+    if (!pokemon) throw new HttpErrors.NotFound('Pokemon does not exist!');
+    pokemon.favourite = favourite ? favourite : !pokemon.favourite;
+    return this.updateById(pokemon._id, {...pokemon});
   }
 }

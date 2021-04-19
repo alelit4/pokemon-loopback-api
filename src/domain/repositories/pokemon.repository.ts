@@ -11,4 +11,8 @@ export interface PokemonRepository extends Repository<Pokemon> {
     skip?: number,
     limit?: number,
   ): Promise<Pokemon[]>;
+
+  findOneById(id?: string): Promise<Pokemon>;
+
+  markAsFavourite(id?: string, favourite?: boolean): Promise<void>;
 }
