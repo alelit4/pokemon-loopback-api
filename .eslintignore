@@ -1,5 +1,5 @@
 node_modules/
 dist/
-coverage/
+coverage/**
 .eslintrc.js
 mongo-init.js
