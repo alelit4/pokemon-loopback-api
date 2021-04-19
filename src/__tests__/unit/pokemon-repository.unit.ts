@@ -309,4 +309,15 @@ describe('Pokemon repository should ', () => {
 
     expect(response.flat()).has.length(0);
   });
+
+  it('retrieve all pokemon types', async () => {
+    await addPokemon(pokemonRepository, aBulbasaur);
+    await addPokemon(pokemonRepository, anSquirtle);
+    await addPokemon(pokemonRepository, aPikachu);
+    await addPokemon(pokemonRepository, aRaichu);
+
+    const response = await pokemonRepository.findDistinctTypes();
+
+    expect(response.flat()).has.length(4);
+  });
 });
