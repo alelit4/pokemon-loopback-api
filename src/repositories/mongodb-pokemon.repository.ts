@@ -45,10 +45,19 @@ export class MongodbPokemonRepository
     });
   }
 
+  findByName(name?: string): Promise<Pokemon[]> {
+    return this.find({
+      where: {
+        name: name ? {regexp: new RegExp('.*' + name + '.*', 'i')} : undefined,
+      },
+    });
+  }
+
   async markAsFavourite(id: string, favourite?: boolean): Promise<void> {
     const pokemon = await this.findOneById(id);
     if (!pokemon) throw new HttpErrors.NotFound('Pokemon does not exist!');
     pokemon.favourite = favourite ? favourite : !pokemon.favourite;
     return this.updateById(pokemon._id, {...pokemon});
   }
+
 }
