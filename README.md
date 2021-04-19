@@ -2,10 +2,10 @@
 
 _This application is generated using [LoopBack 4 CLI](https://loopback.io/doc/en/lb4/Command-line-interface.html) with the
 [initial project layout](https://loopback.io/doc/en/lb4/Loopback-application-layout.html).
-The main objective of this is try to solve [Challenges Coding Exercise Backend](https://github.com/IBMQuantum/backend-code-challenge)_
+The main objective of this is try to solve [Challenges Coding Exercise Backend](https://github.com/IBMQuantum/backend-code-challenge)._
 
-With this api you can control all your Pokemons due to some queries related to them, such as: 
-name, type, is one of you favourites, ...
+With this api you can control all your Pokemons due to some queries related to them, such as: name, type 
+or even if it is one of you favourites or not.
 
 ## 📐 Architecture 
 
@@ -26,12 +26,12 @@ The project has the following layers in '/src':
 * usecases: This is the layer where is located the communication of infrastructure components and domain elements. 
 In this layer the use cases are located related to the services that allow the communication between ports and adapters.
 
-Note: There is a special file called TechnicalDebt.md where is all the information about some technical debt that 
+💡 Note: There is a special file called [TechnicalDebt.md](https://github.com/alelit4/pokemon-loopback-api/blob/main/TechnicalDebt.md) where is all the information about some technical debt that 
 appears in the development of this project. I try to keep this file clean, but depends on time limitations.
 
 ## 🚀 Get started
 
-This project is ready to be use with [Docker]() just change the name of ./.env.sample file to
+This project is ready to be use with 🐳[Docker](https://www.docker.com/) just change the name of ./.env.sample file to
 ./.env to load some demo environment var and then run:
 
 ```sh
@@ -45,12 +45,12 @@ or
 docker compose up
 ```
 
-_If you want to use this project without Docker be sure you have installed [NodeJs and npm](https://nodejs.org/es/download/) and 
+_If you want to use this project without 🐳[Docker](https://www.docker.com/) be sure you have installed [NodeJs and npm](https://nodejs.org/es/download/) and 
 [MongoDB](https://www.mongodb.com/2), change the .env and launch the app with npm_
 
 ### 📦 Pre-requirements
 
-💡 Tip: _Use Docker. With Docker compose you have all the requirements added,
+💡 Tip: _Use 🐳[Docker](https://www.docker.com/), with docker compose you have all the requirements added,
 but if you want to launch the app isolated without docker read this._
 
 By default, dependencies were installed when this application was generated.
@@ -124,7 +124,7 @@ npm run test:acceptance
 ```
 
 #### 📊 Coverage 
-The project has integrated [nyc](https://github.com/istanbuljs/nyc)
+The project has integrated 🛕[nyc](https://github.com/istanbuljs/nyc)
 lib to see the test coverage of the application.
 To see the coverage run:
 
@@ -134,7 +134,7 @@ npm run coverage
 
 The report is generated in '/coverage/index.html', open it in your browser.
 
-#### Test all the suit
+#### 🩺 Test all the suit
 There is a command to execute all the suit test with the linter and tests.
 To run them execute:
 
@@ -151,6 +151,7 @@ npm test
 * 🦄 [LoopBack 4 CLI](https://loopback.io/doc/en/lb4/Command-line-interface.html) - The main generator 
 * 🍃 [MongoDb](https://www.mongodb.com/2) - The database used
 * 🐳 [Docker](https://www.docker.com/) - For an easy deploy
+* 🛕 [nyc](https://github.com/istanbuljs/nyc) - Lib to see the test coverage of the application.
 
 ##  What's next
 
