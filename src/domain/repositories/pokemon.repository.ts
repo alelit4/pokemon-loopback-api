@@ -17,4 +17,6 @@ export interface PokemonRepository extends Repository<Pokemon> {
   findByName(name?: string): Promise<Pokemon[]>;
 
   markAsFavourite(id?: string, favourite?: boolean): Promise<void>;
+
+  findDistinctTypes(): Promise<string[]>;
 }

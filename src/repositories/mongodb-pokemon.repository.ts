@@ -59,4 +59,11 @@ export class MongodbPokemonRepository
     pokemon.favourite = favourite ? favourite : !pokemon.favourite;
     return this.updateById(pokemon._id, {...pokemon});
   }
+
+  async findDistinctTypes(): Promise<string[]> {
+    const pokemonsWithType = await this.find({fields: {types: true}}, {});
+    if (!pokemonsWithType)
+      throw new HttpErrors.NotFound('No pokemon with types!');
+    return [...new Set(pokemonsWithType.flatMap(pokemon => pokemon.types))];
+  }
 }
