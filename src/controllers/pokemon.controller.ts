@@ -1,5 +1,12 @@
 import {Count, CountSchema} from '@loopback/repository';
-import {get, getModelSchemaRef, HttpErrors, param, put, response} from '@loopback/rest';
+import {
+  get,
+  getModelSchemaRef,
+  HttpErrors,
+  param,
+  put,
+  response,
+} from '@loopback/rest';
 import {service} from '@loopback/core';
 import {FavouriteMarkerUsecase, FinderUsecase} from '../usecases';
 import {Pokemon} from '../domain/entities';
@@ -9,7 +16,7 @@ export class PokemonController {
     @service(FinderUsecase)
     public pokemonFinder: FinderUsecase,
     @service(FavouriteMarkerUsecase)
-    public marker : FavouriteMarkerUsecase,
+    public marker: FavouriteMarkerUsecase,
   ) {}
 
   @get('/pokemon/count')
@@ -52,15 +59,31 @@ export class PokemonController {
       },
     },
   })
-  async findById(
-    @param.path.string('id') id?: string
-  ): Promise<Pokemon> {
+  async findById(@param.path.string('id') id?: string): Promise<Pokemon> {
     try {
       const aPokemon = this.pokemonFinder.findOneById(id);
       return await aPokemon;
     } catch (e) {
-      throw new HttpErrors.NotFound('Pokemon does not exist!')
+      throw new HttpErrors.NotFound('Pokemon does not exist!');
     }
+  }
+
+  @get('/pokemon/{name}')
+  @response(200, {
+    description: 'Array of Pokemon model instances',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'array',
+          items: getModelSchemaRef(Pokemon, {includeRelations: true}),
+        },
+      },
+    },
+  })
+  async findByName(
+    @param.path.string('name') name?: string,
+  ): Promise<Pokemon[]> {
+    return this.pokemonFinder.findByName(name);
   }
 
   @put('/pokemon/favourite/{id}')
@@ -72,12 +95,10 @@ export class PokemonController {
     @param.query.boolean('mark') mark?: boolean,
   ): Promise<void> {
     try {
-      if(mark)
-        return await this.marker.markAsFavourite(id, mark.valueOf());
+      if (mark) return await this.marker.markAsFavourite(id, mark.valueOf());
       return await this.marker.mutateFavourite(id);
     } catch (e) {
-      throw new HttpErrors.NotFound('Pokemon does not exist!')
+      throw new HttpErrors.NotFound('Pokemon does not exist!');
     }
   }
-
 }

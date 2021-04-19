@@ -59,5 +59,4 @@ export class MongodbPokemonRepository
     pokemon.favourite = favourite ? favourite : !pokemon.favourite;
     return this.updateById(pokemon._id, {...pokemon});
   }
-
 }

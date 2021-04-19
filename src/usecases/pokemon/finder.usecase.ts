@@ -41,4 +41,8 @@ export class FinderUsecase {
   findOneById(id?: string) {
     return this.pokemonRepository.findOneById(id);
   }
+
+  findByName(name?: string) {
+    return this.pokemonRepository.findByName(name);
+  }
 }
