@@ -270,4 +270,45 @@ describe('Pokemon repository should ', () => {
     expect(response.id).to.equal(paramId);
     expect(response.favourite).to.equal(!anSquirtle.favourite);
   });
+
+  it('retrieve all pokemon when find by part of the name', async () => {
+    const paramName = 'chu';
+    await addPokemon(pokemonRepository, aBulbasaur);
+    await addPokemon(pokemonRepository, anSquirtle);
+    await addPokemon(pokemonRepository, aPikachu);
+    await addPokemon(pokemonRepository, aRaichu);
+
+    const response = await pokemonRepository.findByName(paramName);
+
+    expect(response.flat()).has.length(2);
+    expect(response.flat()[0].id).equal(aPikachu.id);
+    expect(response.flat()[1].id).equal(aRaichu.id);
+  });
+
+  it('retrieve a pokemon when find by a name', async () => {
+    const paramName = 'Pikachu';
+    await addPokemon(pokemonRepository, aBulbasaur);
+    await addPokemon(pokemonRepository, anSquirtle);
+    await addPokemon(pokemonRepository, aPikachu);
+    await addPokemon(pokemonRepository, aRaichu);
+
+    const response = await pokemonRepository.findByName(paramName);
+
+    expect(response.flat()).has.length(1);
+    expect(response.flat()[0].id).equal(aPikachu.id);
+  });
+
+  it('retrieve empty when find by unreal name', async () => {
+    const paramName = 'PikaPika';
+    await addPokemon(pokemonRepository, aBulbasaur);
+    await addPokemon(pokemonRepository, anSquirtle);
+    await addPokemon(pokemonRepository, aPikachu);
+    await addPokemon(pokemonRepository, aRaichu);
+
+    const response = await pokemonRepository.findByName(paramName);
+
+    expect(response.flat()).has.length(0);
+  });
+
+
 });
