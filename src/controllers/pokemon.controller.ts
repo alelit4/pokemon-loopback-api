@@ -10,13 +10,16 @@ import {
 import {service} from '@loopback/core';
 import {FavouriteMarkerUsecase, FinderUsecase} from '../usecases';
 import {Pokemon} from '../domain/entities';
+import {TypeFinderUsecase} from '../usecases/pokemon/type-finder.usecase';
 
 export class PokemonController {
   constructor(
     @service(FinderUsecase)
     public pokemonFinder: FinderUsecase,
     @service(FavouriteMarkerUsecase)
-    public marker: FavouriteMarkerUsecase,
+    public favouriteMarker: FavouriteMarkerUsecase,
+    @service(TypeFinderUsecase)
+    public typeFinder: TypeFinderUsecase,
   ) {}
 
   @get('/pokemon/count')
@@ -95,10 +98,27 @@ export class PokemonController {
     @param.query.boolean('mark') mark?: boolean,
   ): Promise<void> {
     try {
-      if (mark) return await this.marker.markAsFavourite(id, mark.valueOf());
-      return await this.marker.mutateFavourite(id);
+      if (mark)
+        return await this.favouriteMarker.markAsFavourite(id, mark.valueOf());
+      return await this.favouriteMarker.mutateFavourite(id);
     } catch (e) {
       throw new HttpErrors.NotFound('Pokemon does not exist!');
     }
+  }
+
+  @get('/pokemon/types')
+  @response(200, {
+    description: 'Array of Pokemon types instances',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'array',
+          items: 'string',
+        },
+      },
+    },
+  })
+  async findTypes(): Promise<string[] | void[]> {
+    return this.typeFinder.findDistinctTypes();
   }
 }

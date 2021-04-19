@@ -7,8 +7,8 @@ import {PokemonRepository} from '../../domain/repositories/pokemon.repository';
 export class TypeFinderUsecase {
   constructor(
     @repository(MongodbPokemonRepository)
-    public pokemonRepository: PokemonRepository) {
-  }
+    public pokemonRepository: PokemonRepository,
+  ) {}
 
   findDistinctTypes() {
     return this.pokemonRepository.findDistinctTypes();
