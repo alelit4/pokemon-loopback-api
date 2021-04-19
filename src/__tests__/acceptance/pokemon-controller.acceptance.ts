@@ -179,6 +179,73 @@ describe('Pokemon controller should ', () => {
     expect(response.body).to.has.length(0);
   });
 
+  it('retrieve a pokemon by id', async () => {
+    const queryId = aBulbasaur.id;
+    await givenPokemon(aBulbasaur);
+    await givenPokemon(anSquirtle);
+    await givenPokemon(aPikachu);
+    await givenPokemon(aRaichu);
+
+    const response = await client.get(`/pokemon/${queryId}`);
+
+    expect(response.body.id).equal(aBulbasaur.id);
+  });
+
+  it('retrieve an HTTP error when pokemon by fake id', async () => {
+    const queryId = "aFakeID";
+    await givenPokemon(aBulbasaur);
+    await givenPokemon(anSquirtle);
+    await givenPokemon(aPikachu);
+    await givenPokemon(aRaichu);
+
+    await client.get(`/pokemon/${queryId}`)
+      .expect(404);
+  });
+
+  it('retrieve a pokemon marked as favourite', async () => {
+    const queryId = aBulbasaur.id;
+    const queryFavourite = true;
+    await givenPokemon(aBulbasaur);
+    await givenPokemon(anSquirtle);
+    await givenPokemon(aPikachu);
+    await givenPokemon(aRaichu);
+
+    await client.put(`/pokemon/favourite/${queryId}?mark=${queryFavourite}`);
+
+    const pokemonResponse = await client.get(`/pokemon/${queryId}`);
+    expect(pokemonResponse.body.id).equal(aBulbasaur.id);
+    expect(pokemonResponse.body.favourite).equal(queryFavourite);
+  });
+
+  it('retrieve a pokemon unmarked as favourite', async () => {
+    const queryId = aPikachu.id;
+    const queryFavourite = false;
+    await givenPokemon(aBulbasaur);
+    await givenPokemon(anSquirtle);
+    await givenPokemon(aPikachu);
+    await givenPokemon(aRaichu);
+
+    await client.put(`/pokemon/favourite/${queryId}?mark=${queryFavourite}`);
+
+    const pokemonResponse = await client.get(`/pokemon/${queryId}`);
+    expect(pokemonResponse.body.id).equal(aPikachu.id);
+    expect(pokemonResponse.body.favourite).equal(queryFavourite);
+  });
+
+  it('retrieve a pokemon with favourite attribute mutation', async () => {
+    const queryId = aBulbasaur.id;
+    await givenPokemon(aBulbasaur);
+    await givenPokemon(anSquirtle);
+    await givenPokemon(aPikachu);
+    await givenPokemon(aRaichu);
+
+    await client.put(`/pokemon/favourite/${queryId}`);
+
+    const pokemonResponse = await client.get(`/pokemon/${queryId}`);
+    expect(pokemonResponse.body.id).equal(aBulbasaur.id);
+    expect(pokemonResponse.body.favourite).equal(!aBulbasaur.favourite);
+  });
+
   async function givenRunningApp() {
     app = new PokemonApiLoopbackApplication({
       rest: {
