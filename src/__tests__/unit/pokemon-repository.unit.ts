@@ -11,6 +11,7 @@ import {
   aPikachu,
   aRaichu,
 } from '../helpers/pokemon-test-helper';
+import {HttpErrors} from '@loopback/rest';
 
 describe('Pokemon repository should ', () => {
   const pokemonRepository: MongodbPokemonRepository = createEmptyTestRepository();
@@ -197,5 +198,76 @@ describe('Pokemon repository should ', () => {
     );
 
     expect(response.flat()).has.length(0);
+  });
+
+  it('retrieve a pokemon by id', async () => {
+    const paramId = '001';
+    await addPokemon(pokemonRepository, aBulbasaur);
+    await addPokemon(pokemonRepository, anSquirtle);
+    await addPokemon(pokemonRepository, aPikachu);
+    await addPokemon(pokemonRepository, aRaichu);
+
+    const response = await pokemonRepository.findOneById(paramId);
+
+    expect(response.id).to.equal(paramId);
+  });
+
+  it('retrieve a http error when the id does not exist', async () => {
+    const paramId = '001001';
+    await addPokemon(pokemonRepository, aBulbasaur);
+    await addPokemon(pokemonRepository, anSquirtle);
+    await addPokemon(pokemonRepository, aPikachu);
+    await addPokemon(pokemonRepository, aRaichu);
+
+    await pokemonRepository.findOneById(paramId).catch(exception => {
+      expect(exception).instanceOf(HttpErrors.NotFound);
+    });
+  });
+
+  it('retrieve a pokemon marked as favourite', async () => {
+    const paramFavourite = true;
+    const paramId = '001';
+    await addPokemon(pokemonRepository, aBulbasaur);
+
+    await pokemonRepository.markAsFavourite(paramId, paramFavourite);
+
+    const response = await pokemonRepository.findOneById(paramId);
+    expect(response.id).to.equal(paramId);
+    expect(response.favourite).to.equal(paramFavourite);
+  });
+
+  it('retrieve a pokemon marked as not favourite', async () => {
+    const paramFavourite = false;
+    const paramId = '002';
+    await addPokemon(pokemonRepository, anSquirtle);
+
+    await pokemonRepository.markAsFavourite(paramId, paramFavourite);
+
+    const response = await pokemonRepository.findOneById(paramId);
+    expect(response.id).to.equal(paramId);
+    expect(response.favourite).to.equal(paramFavourite);
+  });
+
+  it('retrieve a error when a pokemon marked as favourite does not exist', async () => {
+    const paramFavourite = false;
+    const paramId = '001';
+    await addPokemon(pokemonRepository, anSquirtle);
+
+    await pokemonRepository
+      .markAsFavourite(paramId, paramFavourite)
+      .catch(exception => {
+        expect(exception).instanceOf(HttpErrors.NotFound);
+      });
+  });
+
+  it('retrieve a pokemon with favourite mutation  when no paramFavourite exist', async () => {
+    const paramId = '002';
+    await addPokemon(pokemonRepository, anSquirtle);
+
+    await pokemonRepository.markAsFavourite(paramId);
+
+    const response = await pokemonRepository.findOneById(paramId);
+    expect(response.id).to.equal(paramId);
+    expect(response.favourite).to.equal(!anSquirtle.favourite);
   });
 });
