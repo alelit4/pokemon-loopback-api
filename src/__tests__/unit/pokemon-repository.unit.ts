@@ -11,7 +11,6 @@ import {
   aPikachu,
   aRaichu,
 } from '../helpers/pokemon-test-helper';
-import {HttpErrors} from '@loopback/rest';
 
 describe('Pokemon repository should ', () => {
   const pokemonRepository: MongodbPokemonRepository = createEmptyTestRepository();
@@ -72,6 +71,17 @@ describe('Pokemon repository should ', () => {
     const response = await pokemonRepository.findByParams(paramName);
 
     expect(response.flat()).has.length(0);
+  });
+
+  it('retrieve all pokemon when no params', async () => {
+    await addPokemon(pokemonRepository, aBulbasaur);
+    await addPokemon(pokemonRepository, anSquirtle);
+    await addPokemon(pokemonRepository, aPikachu);
+    await addPokemon(pokemonRepository, aRaichu);
+
+    const response = await pokemonRepository.findByParams();
+
+    expect(response.flat()).has.length(4);
   });
 
   it('retrieve pokemon skipping 1 and limit 2', async () => {
@@ -220,7 +230,7 @@ describe('Pokemon repository should ', () => {
     await addPokemon(pokemonRepository, aRaichu);
 
     await pokemonRepository.findOneById(paramId).catch(exception => {
-      expect(exception).instanceOf(HttpErrors.NotFound);
+      expect(exception).instanceOf(Error);
     });
   });
 
@@ -256,11 +266,11 @@ describe('Pokemon repository should ', () => {
     await pokemonRepository
       .markAsFavourite(paramId, paramFavourite)
       .catch(exception => {
-        expect(exception).instanceOf(HttpErrors.NotFound);
+        expect(exception).instanceOf(Error);
       });
   });
 
-  it('retrieve a pokemon with favourite mutation  when no paramFavourite exist', async () => {
+  it('retrieve a pokemon with favourite mutation when no paramFavourite exist', async () => {
     const paramId = '002';
     await addPokemon(pokemonRepository, anSquirtle);
 
@@ -269,6 +279,15 @@ describe('Pokemon repository should ', () => {
     const response = await pokemonRepository.findOneById(paramId);
     expect(response.id).to.equal(paramId);
     expect(response.favourite).to.equal(!anSquirtle.favourite);
+  });
+
+  it('retrieve a error when favourite mutation is applied on a non-existent pokemon', async () => {
+    const paramId = '000';
+    await addPokemon(pokemonRepository, anSquirtle);
+
+    await pokemonRepository.markAsFavourite(paramId).catch(exception => {
+      expect(exception).instanceOf(Error);
+    });
   });
 
   it('retrieve all pokemon when find by part of the name', async () => {
@@ -319,5 +338,11 @@ describe('Pokemon repository should ', () => {
     const response = await pokemonRepository.findDistinctTypes();
 
     expect(response.flat()).has.length(4);
+  });
+
+  it('retrieve a error when there is any pokemon type', async () => {
+    await pokemonRepository.findDistinctTypes().catch(exception => {
+      expect(exception).instanceOf(Error);
+    });
   });
 });
