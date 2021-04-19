@@ -282,6 +282,17 @@ describe('Pokemon controller should ', () => {
     expect(response.body).to.has.length(0);
   });
 
+  it('retrieve all pokemon types', async () => {
+    await givenPokemon(aBulbasaur);
+    await givenPokemon(anSquirtle);
+    await givenPokemon(aPikachu);
+    await givenPokemon(aRaichu);
+
+    const response = await client.get(`/pokemon/types`);
+
+    expect(response.body).to.has.length(4);
+  });
+
   async function givenRunningApp() {
     app = new PokemonApiLoopbackApplication({
       rest: {
