@@ -29,7 +29,6 @@ In this layer the use cases are located related to the services that allow the c
 Note: There is a special file called TechnicalDebt.md where is all the information about some technical debt that 
 appears in the development of this project. I try to keep this file clean, but depends on time limitations.
 
-
 ## 🚀 Get started
 
 This project is ready to be use with [Docker]() just change the name of ./.env.sample file to
@@ -38,15 +37,21 @@ This project is ready to be use with [Docker]() just change the name of ./.env.s
 ```sh
 npm run docker:build
 ```
-
-_If you want to use this project be sure you have installed [NodeJs and npm](https://nodejs.org/es/download/) and 
-[MongoDB](https://www.mongodb.com/2)_
-
 ```sh
-npm start
+npm run docker:compose:run
+```
+or 
+```sh
+docker compose up
 ```
 
+_If you want to use this project without Docker be sure you have installed [NodeJs and npm](https://nodejs.org/es/download/) and 
+[MongoDB](https://www.mongodb.com/2), change the .env and launch the app with npm_
+
 ### 📦 Pre-requirements
+
+💡 Tip: _Use Docker. With Docker compose you have all the requirements added,
+but if you want to launch the app isolated without docker read this._
 
 By default, dependencies were installed when this application was generated.
 Whenever dependencies in `package.json` are changed, run the following command:
@@ -91,13 +96,54 @@ npm run rebuild
 - `npm run docker:build`: Build a Docker image for this application
 - `npm run docker:run`: Run this application inside a Docker container
 
-## ⚙️ Tests all test suit
+## ✔️Tests
+
+In this application all tests are over the path 'src/__tests__'.
+All the tools related needed to launch them are in 'src/__tests__/helpers'.
+If you want to run all tests run:
+
+```sh
+npm run tests
+```
+
+#### 🧨 Unit tests
+There are some unit tests in 'src/__tests__/unit' to test specific 
+functionalities of the app.
+To launch them run:
+
+```sh
+npm run test:unit
+```
+
+#### 💣 Acceptance tests
+Acceptance tests are in 'src/__tests__/acceptance' to test the application end-to-end.
+To launch them run:
+
+```sh
+npm run test:acceptance
+```
+
+#### 📊 Coverage 
+The project has integrated [nyc](https://github.com/istanbuljs/nyc)
+lib to see the test coverage of the application.
+To see the coverage run:
+
+```sh
+npm run coverage
+```
+
+The report is generated in '/coverage/index.html', open it in your browser.
+
+#### Test all the suit
+There is a command to execute all the suit test with the linter and tests.
+To run them execute:
 
 ```sh
 npm test
 ```
 
-[comment]: <> (##  🔩 end-to-end tests)
+💡 Note: _If you have some errors related to linter run
+`npm run lint:fix --fix` to automatically fix code style and formatting issues_
 
 
 ## 🛠️ Tools and dependencies
