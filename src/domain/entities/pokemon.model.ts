@@ -18,18 +18,30 @@ export class Pokemon extends Entity {
   @property({
     type: 'string',
     required: true,
+    jsonSchema: {
+      maxLength: 3,
+      minLength: 1,
+    },
   })
   id: string;
 
   @property({
     type: 'string',
     required: true,
+    jsonSchema: {
+      maxLength: 30,
+      minLength: 1,
+    },
   })
   name: string;
 
   @property({
     type: 'string',
     required: true,
+    jsonSchema: {
+      maxLength: 40,
+      minLength: 1,
+    },
   })
   classification: string;
 
@@ -78,6 +90,10 @@ export class Pokemon extends Entity {
 
   @property({
     type: 'number',
+    jsonSchema: {
+      maximum: 5000,
+      minimum: 0,
+    },
   })
   maxHP?: number;
 
@@ -110,3 +126,7 @@ export interface PokemonRelations {
 }
 
 export type PokemonWithRelations = Pokemon & PokemonRelations;
+
+export class NoPokemon {
+  id: null;
+}
