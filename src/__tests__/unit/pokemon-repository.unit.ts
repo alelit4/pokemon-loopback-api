@@ -11,6 +11,7 @@ import {
   aPikachu,
   aRaichu,
 } from '../helpers/pokemon-test-helper';
+import {NoPokemon, Pokemon} from '../../domain/entities';
 
 describe('Pokemon repository should ', () => {
   const pokemonRepository: MongodbPokemonRepository = createEmptyTestRepository();
@@ -25,16 +26,16 @@ describe('Pokemon repository should ', () => {
     expect(numberOfPokemons.count).to.eql(1);
   });
 
-  it('retrieve all pokemon when no params added', async () => {
+  it('retrieve all pokemon when filter without params', async () => {
     await addPokemon(pokemonRepository, aBulbasaur);
     await addPokemon(pokemonRepository, aPikachu);
 
     const response = await pokemonRepository.findByParams();
 
-    expect(response.flat()).has.length(2);
+    expect((response as Pokemon[]).flat()).has.length(2);
   });
 
-  it('retrieve all pokemon when param name is like "chu" part of the name', async () => {
+  it('retrieve all pokemon when filter by part of a name as param', async () => {
     const paramName = 'chu';
     await addPokemon(pokemonRepository, aBulbasaur);
     await addPokemon(pokemonRepository, anSquirtle);
@@ -43,12 +44,12 @@ describe('Pokemon repository should ', () => {
 
     const response = await pokemonRepository.findByParams(paramName);
 
-    expect(response.flat()).has.length(2);
-    expect(response.flat()[0].id).equal(aPikachu.id);
-    expect(response.flat()[1].id).equal(aRaichu.id);
+    expect(response as Pokemon[]).has.length(2);
+    expect((response as Pokemon[])[0].id).equal(aPikachu.id);
+    expect((response as Pokemon[])[1].id).equal(aRaichu.id);
   });
 
-  it('retrieve Pikachu when param name is complete name', async () => {
+  it('retrieve a pokemon when filter by a complete pokemon name as param', async () => {
     const paramName = 'Pikachu';
     await addPokemon(pokemonRepository, aBulbasaur);
     await addPokemon(pokemonRepository, anSquirtle);
@@ -57,11 +58,11 @@ describe('Pokemon repository should ', () => {
 
     const response = await pokemonRepository.findByParams(paramName);
 
-    expect(response.flat()).has.length(1);
-    expect(response.flat()[0].id).equal(aPikachu.id);
+    expect(response as Pokemon[]).has.length(1);
+    expect((response as Pokemon[])[0].id).equal(aPikachu.id);
   });
 
-  it('retrieve empty when param name is an unreal name', async () => {
+  it('retrieve NoPokemon when filter by a non-existent name as param', async () => {
     const paramName = 'PikaPika';
     await addPokemon(pokemonRepository, aBulbasaur);
     await addPokemon(pokemonRepository, anSquirtle);
@@ -70,7 +71,7 @@ describe('Pokemon repository should ', () => {
 
     const response = await pokemonRepository.findByParams(paramName);
 
-    expect(response.flat()).has.length(0);
+    expect(response).instanceOf(NoPokemon);
   });
 
   it('retrieve all pokemon when no params', async () => {
@@ -81,10 +82,10 @@ describe('Pokemon repository should ', () => {
 
     const response = await pokemonRepository.findByParams();
 
-    expect(response.flat()).has.length(4);
+    expect(response as Pokemon[]).has.length(4);
   });
 
-  it('retrieve pokemon skipping 1 and limit 2', async () => {
+  it('retrieve all pokemon when filter with pagination skipping 1 and limit 2', async () => {
     const paramSkip = 1;
     const paramLimit = 2;
     await addPokemon(pokemonRepository, aBulbasaur);
@@ -100,12 +101,12 @@ describe('Pokemon repository should ', () => {
       paramLimit,
     );
 
-    expect(response.flat()).has.length(2);
-    expect(response.flat()[0].id).equal(anSquirtle.id);
-    expect(response.flat()[1].id).equal(aPikachu.id);
+    expect(response as Pokemon[]).has.length(2);
+    expect((response as Pokemon[])[0].id).equal(anSquirtle.id);
+    expect((response as Pokemon[])[1].id).equal(aPikachu.id);
   });
 
-  it('retrieve pokemon skipping 2 and limit 1', async () => {
+  it('retrieve all pokemon when filter with pagination skipping 2 and limit 1', async () => {
     const paramSkip = 2;
     const paramLimit = 1;
     await addPokemon(pokemonRepository, aBulbasaur);
@@ -121,11 +122,11 @@ describe('Pokemon repository should ', () => {
       paramLimit,
     );
 
-    expect(response.flat()).has.length(1);
-    expect(response.flat()[0].id).equal(aPikachu.id);
+    expect(response as Pokemon[]).has.length(1);
+    expect((response as Pokemon[])[0].id).equal(aPikachu.id);
   });
 
-  it('retrieve favorite pokemon when favorite param is true', async () => {
+  it('retrieve all favorite pokemon when filter by favorite', async () => {
     const paramFavorite = true;
     await addPokemon(pokemonRepository, aBulbasaur);
     await addPokemon(pokemonRepository, anSquirtle);
@@ -137,13 +138,13 @@ describe('Pokemon repository should ', () => {
       paramFavorite,
     );
 
-    expect(response.flat()).has.length(3);
-    expect(response.flat()[0].id).equal(anSquirtle.id);
-    expect(response.flat()[1].id).equal(aPikachu.id);
-    expect(response.flat()[2].id).equal(aRaichu.id);
+    expect(response as Pokemon[]).has.length(3);
+    expect((response as Pokemon[])[0].id).equal(anSquirtle.id);
+    expect((response as Pokemon[])[1].id).equal(aPikachu.id);
+    expect((response as Pokemon[])[2].id).equal(aRaichu.id);
   });
 
-  it('retrieve a non favorite pokemon when favorite param is false', async () => {
+  it('retrieve all non favorite pokemon when filter by non-favorite', async () => {
     const paramFavorite = false;
     await addPokemon(pokemonRepository, aBulbasaur);
     await addPokemon(pokemonRepository, anSquirtle);
@@ -155,11 +156,11 @@ describe('Pokemon repository should ', () => {
       paramFavorite,
     );
 
-    expect(response.flat()).has.length(1);
-    expect(response.flat()[0].id).equal(aBulbasaur.id);
+    expect(response as Pokemon[]).has.length(1);
+    expect((response as Pokemon[])[0].id).equal(aBulbasaur.id);
   });
 
-  it('retrieve pokemon by type when type is part of a type', async () => {
+  it('retrieve all pokemon by type when filter by part of a type', async () => {
     const paramType = 'Elec';
     await addPokemon(pokemonRepository, aBulbasaur);
     await addPokemon(pokemonRepository, anSquirtle);
@@ -172,12 +173,12 @@ describe('Pokemon repository should ', () => {
       paramType,
     );
 
-    expect(response.flat()).has.length(2);
-    expect(response.flat()[0].id).equal(aPikachu.id);
-    expect(response.flat()[1].id).equal(aRaichu.id);
+    expect(response as Pokemon[]).has.length(2);
+    expect((response as Pokemon[])[0].id).equal(aPikachu.id);
+    expect((response as Pokemon[])[1].id).equal(aRaichu.id);
   });
 
-  it('retrieve a pokemon by type', async () => {
+  it('retrieve all pokemon by type when filter by a type', async () => {
     const paramType = 'Grass';
     await addPokemon(pokemonRepository, aBulbasaur);
     await addPokemon(pokemonRepository, anSquirtle);
@@ -190,11 +191,11 @@ describe('Pokemon repository should ', () => {
       paramType,
     );
 
-    expect(response.flat()).has.length(1);
-    expect(response.flat()[0].id).equal(aBulbasaur.id);
+    expect(response as Pokemon[]).has.length(1);
+    expect((response as Pokemon[])[0].id).equal(aBulbasaur.id);
   });
 
-  it('retrieve empty when type is not a real type', async () => {
+  it('retrieve noPokemon when filter by a non-existent type', async () => {
     const paramType = 'GrassPoison';
     await addPokemon(pokemonRepository, aBulbasaur);
     await addPokemon(pokemonRepository, anSquirtle);
@@ -207,10 +208,10 @@ describe('Pokemon repository should ', () => {
       paramType,
     );
 
-    expect(response.flat()).has.length(0);
+    expect(response).instanceOf(NoPokemon);
   });
 
-  it('retrieve a pokemon by id', async () => {
+  it('retrieve a pokemon when filter by id', async () => {
     const paramId = '001';
     await addPokemon(pokemonRepository, aBulbasaur);
     await addPokemon(pokemonRepository, anSquirtle);
@@ -222,16 +223,15 @@ describe('Pokemon repository should ', () => {
     expect(response.id).to.equal(paramId);
   });
 
-  it('retrieve a http error when the id does not exist', async () => {
+  it('retrieve a noPokemon when when filter by a non-existent id', async () => {
     const paramId = '001001';
     await addPokemon(pokemonRepository, aBulbasaur);
     await addPokemon(pokemonRepository, anSquirtle);
     await addPokemon(pokemonRepository, aPikachu);
     await addPokemon(pokemonRepository, aRaichu);
 
-    await pokemonRepository.findOneById(paramId).catch(exception => {
-      expect(exception).instanceOf(Error);
-    });
+    const response = await pokemonRepository.findOneById(paramId);
+    expect(response).instanceOf(NoPokemon);
   });
 
   it('retrieve a pokemon marked as favourite', async () => {
@@ -243,7 +243,7 @@ describe('Pokemon repository should ', () => {
 
     const response = await pokemonRepository.findOneById(paramId);
     expect(response.id).to.equal(paramId);
-    expect(response.favourite).to.equal(paramFavourite);
+    expect((response as Pokemon).favourite).to.equal(paramFavourite);
   });
 
   it('retrieve a pokemon marked as not favourite', async () => {
@@ -255,22 +255,23 @@ describe('Pokemon repository should ', () => {
 
     const response = await pokemonRepository.findOneById(paramId);
     expect(response.id).to.equal(paramId);
-    expect(response.favourite).to.equal(paramFavourite);
+    expect((response as Pokemon).favourite).to.equal(paramFavourite);
   });
 
-  it('retrieve a error when a pokemon marked as favourite does not exist', async () => {
+  it('retrieve a noPokemon when a pokemon marked as favourite does not exist', async () => {
     const paramFavourite = false;
     const paramId = '001';
     await addPokemon(pokemonRepository, anSquirtle);
 
-    await pokemonRepository
-      .markAsFavourite(paramId, paramFavourite)
-      .catch(exception => {
-        expect(exception).instanceOf(Error);
-      });
+    const response = await pokemonRepository.markAsFavourite(
+      paramId,
+      paramFavourite,
+    );
+
+    expect(response).instanceOf(NoPokemon);
   });
 
-  it('retrieve a pokemon with favourite mutation when no paramFavourite exist', async () => {
+  it('retrieve a pokemon with favourite mutation when no favourite param exist', async () => {
     const paramId = '002';
     await addPokemon(pokemonRepository, anSquirtle);
 
@@ -278,19 +279,19 @@ describe('Pokemon repository should ', () => {
 
     const response = await pokemonRepository.findOneById(paramId);
     expect(response.id).to.equal(paramId);
-    expect(response.favourite).to.equal(!anSquirtle.favourite);
+    expect((response as Pokemon).favourite).to.equal(!anSquirtle.favourite);
   });
 
-  it('retrieve a error when favourite mutation is applied on a non-existent pokemon', async () => {
+  it('retrieve a noPokemon when favourite mutation is applied on a non-existent pokemon', async () => {
     const paramId = '000';
     await addPokemon(pokemonRepository, anSquirtle);
 
-    await pokemonRepository.markAsFavourite(paramId).catch(exception => {
-      expect(exception).instanceOf(Error);
-    });
+    const response = await pokemonRepository.markAsFavourite(paramId);
+
+    expect(response).instanceOf(NoPokemon);
   });
 
-  it('retrieve all pokemon when find by part of the name', async () => {
+  it('retrieve all pokemon when filter by part of the name', async () => {
     const paramName = 'chu';
     await addPokemon(pokemonRepository, aBulbasaur);
     await addPokemon(pokemonRepository, anSquirtle);
@@ -299,12 +300,12 @@ describe('Pokemon repository should ', () => {
 
     const response = await pokemonRepository.findByName(paramName);
 
-    expect(response.flat()).has.length(2);
-    expect(response.flat()[0].id).equal(aPikachu.id);
-    expect(response.flat()[1].id).equal(aRaichu.id);
+    expect(response as Pokemon[]).has.length(2);
+    expect((response as Pokemon[])[0].id).equal(aPikachu.id);
+    expect((response as Pokemon[])[1].id).equal(aRaichu.id);
   });
 
-  it('retrieve a pokemon when find by a name', async () => {
+  it('retrieve a pokemon when filter by a name', async () => {
     const paramName = 'Pikachu';
     await addPokemon(pokemonRepository, aBulbasaur);
     await addPokemon(pokemonRepository, anSquirtle);
@@ -313,11 +314,11 @@ describe('Pokemon repository should ', () => {
 
     const response = await pokemonRepository.findByName(paramName);
 
-    expect(response.flat()).has.length(1);
-    expect(response.flat()[0].id).equal(aPikachu.id);
+    expect(response as Pokemon[]).has.length(1);
+    expect((response as Pokemon[])[0].id).equal(aPikachu.id);
   });
 
-  it('retrieve empty when find by unreal name', async () => {
+  it('retrieve NoPokemon when filter by a non-existent name', async () => {
     const paramName = 'PikaPika';
     await addPokemon(pokemonRepository, aBulbasaur);
     await addPokemon(pokemonRepository, anSquirtle);
@@ -326,7 +327,7 @@ describe('Pokemon repository should ', () => {
 
     const response = await pokemonRepository.findByName(paramName);
 
-    expect(response.flat()).has.length(0);
+    expect(response).instanceOf(NoPokemon);
   });
 
   it('retrieve all pokemon types', async () => {
@@ -337,12 +338,12 @@ describe('Pokemon repository should ', () => {
 
     const response = await pokemonRepository.findDistinctTypes();
 
-    expect(response.flat()).has.length(4);
+    expect((response as string[]).flat()).has.length(4);
   });
 
   it('retrieve a error when there is any pokemon type', async () => {
-    await pokemonRepository.findDistinctTypes().catch(exception => {
-      expect(exception).instanceOf(Error);
-    });
+    const response = await pokemonRepository.findDistinctTypes();
+
+    expect(response).instanceOf(NoPokemon);
   });
 });
