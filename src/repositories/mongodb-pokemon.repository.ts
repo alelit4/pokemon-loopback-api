@@ -1,9 +1,8 @@
 import {inject} from '@loopback/core';
 import {DefaultCrudRepository} from '@loopback/repository';
 import {MongodbDataSource} from '../datasources';
-import {Pokemon, PokemonRelations} from '../domain/entities';
+import {NoPokemon, Pokemon, PokemonRelations} from '../domain/entities';
 import {PokemonRepository} from '../domain/repositories/pokemon.repository';
-import {HttpErrors} from '@loopback/rest';
 
 export class MongodbPokemonRepository
   extends DefaultCrudRepository<
@@ -22,7 +21,7 @@ export class MongodbPokemonRepository
     type?: string,
     skip?: number,
     limit?: number,
-  ): Promise<Pokemon[]> {
+  ): Promise<Pokemon[] | NoPokemon> {
     return this.find({
       where: {
         name: name ? {regexp: new RegExp('.*' + name + '.*', 'i')} : undefined,
@@ -32,37 +31,48 @@ export class MongodbPokemonRepository
       skip: skip,
       limit: limit,
       order: ['id ASC'],
+    }).then(pokemon => {
+      if (!pokemon.length) return new NoPokemon();
+      return pokemon;
     });
   }
 
-  findOneById(id: string): Promise<Pokemon> {
+  findOneById(id: string): Promise<Pokemon | NoPokemon> {
     return this.findOne({
       where: {
         id: id,
       },
     }).then(pokemon => {
-      if (!pokemon) throw new HttpErrors.NotFound('Pokemon does not exist!');
+      if (!pokemon) return new NoPokemon();
       return pokemon;
     });
   }
 
-  findByName(name?: string): Promise<Pokemon[]> {
+  findByName(name?: string): Promise<Pokemon[] | NoPokemon> {
     return this.find({
       where: {
         name: name ? {regexp: new RegExp('.*' + name + '.*', 'i')} : undefined,
       },
+    }).then(pokemon => {
+      if (!pokemon.length) return new NoPokemon();
+      return pokemon;
     });
   }
 
-  async markAsFavourite(id: string, favourite?: boolean): Promise<void> {
+  async markAsFavourite(
+    id: string,
+    favourite?: boolean,
+  ): Promise<void | NoPokemon> {
     const pokemon = await this.findOneById(id);
-    if (!pokemon) throw new Error('Pokemon does not exist!');
+    if (pokemon instanceof NoPokemon) return new NoPokemon();
     pokemon.favourite = favourite ? favourite : !pokemon.favourite;
     return this.updateById(pokemon._id, {...pokemon});
   }
 
-  async findDistinctTypes(): Promise<string[]> {
-    const pokemonsWithType = await this.find();
-    return [...new Set(pokemonsWithType.flatMap(pokemon => pokemon.types))];
+  async findDistinctTypes(): Promise<string[] | NoPokemon> {
+    return this.find().then(pokemons => {
+      if (!pokemons.length) return new NoPokemon();
+      return [...new Set(pokemons.flatMap(pokemon => pokemon.types))];
+    });
   }
 }

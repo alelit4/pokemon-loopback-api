@@ -2,7 +2,8 @@ import {injectable, /* inject, */ BindingScope} from '@loopback/core';
 import {MongodbPokemonRepository} from '../../repositories';
 import {PokemonRepository} from '../../domain/repositories/pokemon.repository';
 import {repository} from '@loopback/repository';
-import {Pokemon} from '../../domain/entities';
+import {NoPokemon, Pokemon} from '../../domain/entities';
+import {HttpErrors} from '@loopback/rest';
 
 @injectable({scope: BindingScope.TRANSIENT})
 export class FinderUsecase {
@@ -15,21 +16,24 @@ export class FinderUsecase {
     return this.pokemonRepository.count();
   }
 
-  findByParams(
+  async findByParams(
     name?: string,
     favourite?: boolean,
     type?: string,
     page?: number,
     size?: number,
-  ): Promise<Pokemon[]> {
+  ): Promise<Pokemon[] | NoPokemon> {
     const [skip, limit] = FinderUsecase.calculatePagination(page, size);
-    return this.pokemonRepository.findByParams(
+    const pokemon = await this.pokemonRepository.findByParams(
       name,
       favourite,
       type,
       skip,
       limit,
     );
+    if (pokemon instanceof NoPokemon)
+      throw new HttpErrors['404']('Pokemon no found');
+    return pokemon;
   }
 
   private static calculatePagination(page?: number, size?: number) {
@@ -38,11 +42,17 @@ export class FinderUsecase {
     return [skip, limit];
   }
 
-  findOneById(id?: string) {
-    return this.pokemonRepository.findOneById(id);
+  async findOneById(id?: string) {
+    const pokemon = await this.pokemonRepository.findOneById(id);
+    if (pokemon instanceof NoPokemon)
+      throw new HttpErrors['404']('Pokemon no found');
+    return pokemon;
   }
 
-  findByName(name?: string) {
-    return this.pokemonRepository.findByName(name);
+  async findByName(name?: string) {
+    const pokemon = await this.pokemonRepository.findByName(name);
+    if (pokemon instanceof NoPokemon)
+      throw new HttpErrors['404']('Pokemon no found');
+    return pokemon;
   }
 }

@@ -1,5 +1,5 @@
 import {Count, Repository} from '@loopback/repository';
-import {Pokemon} from '../entities';
+import {NoPokemon, Pokemon} from '../entities';
 
 export interface PokemonRepository extends Repository<Pokemon> {
   count(): Promise<Count>;
@@ -10,13 +10,13 @@ export interface PokemonRepository extends Repository<Pokemon> {
     type?: string,
     skip?: number,
     limit?: number,
-  ): Promise<Pokemon[]>;
+  ): Promise<Pokemon[] | NoPokemon>;
 
-  findOneById(id?: string): Promise<Pokemon>;
+  findOneById(id?: string): Promise<Pokemon | NoPokemon>;
 
-  findByName(name?: string): Promise<Pokemon[]>;
+  findByName(name?: string): Promise<Pokemon[] | NoPokemon>;
 
-  markAsFavourite(id?: string, favourite?: boolean): Promise<void>;
+  markAsFavourite(id?: string, favourite?: boolean): Promise<void | NoPokemon>;
 
-  findDistinctTypes(): Promise<string[]>;
+  findDistinctTypes(): Promise<string[] | NoPokemon>;
 }
