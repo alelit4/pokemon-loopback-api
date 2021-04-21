@@ -32,14 +32,12 @@ appears in the development of this project. I try to keep this file clean, but d
 ## 🚀 Get started
 
 This project is ready to be used with 🐳[Docker](https://www.docker.com/) just changing the name of `.env.sample` file to
-.env to load some demo environment variables and then run:
+`.env` to load some demo environment variables and then run:
 
-```sh
-npm run docker:build
-```
 ```sh
 npm run docker:build:run
 ```
+💡 If you have any problem, check the line separator of `mongo-init.sh`, they have to be in Unix/Mac format (\n).
 
 _If you want to use this project without 🐳[Docker](https://www.docker.com/) be sure you have installed [NodeJs and npm](https://nodejs.org/es/download/) and 
 [MongoDB](https://www.mongodb.com/2), change the .env and launch the app with npm_
