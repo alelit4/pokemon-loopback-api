@@ -1,6 +1,7 @@
 import {MongodbPokemonRepository} from '../../repositories';
 import {testdb} from './test-database.datasource';
 import {Pokemon} from '../../domain/entities';
+import {aBulbasaur, anSquirtle, aPikachu, aRaichu} from './pokemon-test-helper';
 
 export function createEmptyTestRepository() {
   return new MongodbPokemonRepository(testdb);
@@ -36,4 +37,11 @@ export async function addPokemon(
   data?: Partial<Pokemon>,
 ) {
   return repository.create(givenPokemonData(data));
+}
+
+export async function fillDatabaseWithAllData() {
+  await givenPokemon(aBulbasaur);
+  await givenPokemon(anSquirtle);
+  await givenPokemon(aPikachu);
+  await givenPokemon(aRaichu);
 }
