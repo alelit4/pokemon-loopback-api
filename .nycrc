@@ -19,6 +19,7 @@
     "src/index.ts",
     "src/migrate.ts",
     "src/openapi-spec.ts",
+    "src/datasources/mongodb.configuration.ts",
     "src/__tests__/**"
   ],
   "sourceMap": true,
