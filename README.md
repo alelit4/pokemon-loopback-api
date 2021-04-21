@@ -1,11 +1,11 @@
-# 💦🐢 Pokemon api loopback
+# 💦🐢 Pokemon api loopback 🔖V.1.0
 
 _This application is generated using [LoopBack 4 CLI](https://loopback.io/doc/en/lb4/Command-line-interface.html) with the
 [initial project layout](https://loopback.io/doc/en/lb4/Loopback-application-layout.html).
 The main objective of this is try to solve [Challenges Coding Exercise Backend](https://github.com/IBMQuantum/backend-code-challenge)._
 
 With this api you can control all your Pokemons due to some queries related to them, such as: name, type 
-or even if it is one of you favourites or not.
+or even if it is one of your favourites or not.
 
 ## 📐 Architecture 
 
@@ -37,7 +37,7 @@ This project is ready to be used with 🐳[Docker](https://www.docker.com/) just
 ```sh
 npm run docker:build:run
 ```
-💡 If you have any problem, check the line separator of `mongo-init.sh`, they have to be in Unix/Mac format (\n).
+💡 If you have any problem importing data in mongodb, check the line separator of `./mongo-init.sh`, it has to be in Unix/Mac format (\n).
 
 _If you want to use this project without 🐳[Docker](https://www.docker.com/) be sure you have installed [NodeJs and npm](https://nodejs.org/es/download/) and 
 [MongoDB](https://www.mongodb.com/2), change the .env and launch the app with npm_
