@@ -3,7 +3,7 @@
 We use Visual Studio Code for developing LoopBack and recommend the same to our
 users.
 
-## VSCode setup
+## VSCode/WebStorm setup
 
 Install the following extensions:
 
@@ -11,6 +11,10 @@ Install the following extensions:
  - [prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 
 ## Development workflow
+
+### WebStorm 
+
+1. Create a new configuration of Docker, select the main file in the configuration `./docker-compose.yml` and run it! 
 
 ### Visual Studio Code
 
