@@ -38,11 +38,7 @@ This project is ready to be used with 🐳[Docker](https://www.docker.com/) just
 npm run docker:build
 ```
 ```sh
-npm run docker:compose:run
-```
-or 
-```sh
-docker compose up
+npm run docker:build:run
 ```
 
 _If you want to use this project without 🐳[Docker](https://www.docker.com/) be sure you have installed [NodeJs and npm](https://nodejs.org/es/download/) and 
