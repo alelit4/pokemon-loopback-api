@@ -12,10 +12,6 @@ export class FinderUsecase {
     public pokemonRepository: PokemonRepository,
   ) {}
 
-  count() {
-    return this.pokemonRepository.count();
-  }
-
   async findByParams(
     name?: string,
     favourite?: boolean,

@@ -1,4 +1,3 @@
-import {Count, CountSchema} from '@loopback/repository';
 import {
   get,
   getModelSchemaRef,
@@ -23,15 +22,6 @@ export class PokemonController {
     @service(TypeFinderUsecase)
     public typeFinder: TypeFinderUsecase,
   ) {}
-
-  @get('/pokemon/count')
-  @response(200, {
-    description: 'Pokemon model count',
-    content: {'application/json': {schema: CountSchema}},
-  })
-  async count(): Promise<Count> {
-    return this.pokemonFinder.count();
-  }
 
   @intercept(NameValidatorInterceptor.BINDING_KEY)
   @get('/pokemon')
